@@ -20,3 +20,10 @@ $ pig -x local -f pregunta.pig
 
 */
 
+data = LOAD 'data.csv' USING PigStorage(',') AS (num1:int, name:chararray, lastname:chararray, date:chararray, color:chararray, num2:int);
+
+datos = FOREACH data GENERATE name, color;
+
+filtered_data = FILTER datos BY color == 'blue' AND SUBSTRING(name, 0, 1) == 'Z';
+
+STORE filtered_data INTO 'output' USING PigStorage(' ');
