@@ -20,3 +20,10 @@ $ pig -x local -f pregunta.pig
 */
 
 
+data = LOAD 'data.csv' USING PigStorage(',') AS (num1:int, name:chararray, lastname:chararray, date:chararray, color:chararray, num2:int);
+
+datos = FOREACH data GENERATE date;
+
+filtered_data = FOREACH datos GENERATE SUBSTRING(date, 5, 7) AS extracted_date;
+
+STORE filtered_data INTO 'output' USING PigStorage(',');

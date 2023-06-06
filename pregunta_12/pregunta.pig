@@ -27,3 +27,7 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+data = LOAD 'data.csv' USING PigStorage(',') AS (num1:int, name:chararray, lastname:chararray, date:chararray, color:chararray, num2:int);
+apellido = FOREACH data GENERATE lastname;
+filtered_data = FILTER apellido BY (lastname >= 'D') AND (lastname <= 'L');
+STORE filtered_data INTO 'output' USING PigStorage(',');
