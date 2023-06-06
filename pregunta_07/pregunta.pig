@@ -14,3 +14,7 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+data = LOAD 'data.tsv' AS (letter:chararray, bag1:{d:tuple(f:chararray)}, map1:map[]);
+desacoplar = FOREACH data GENERATE letter, SIZE(bag1), SIZE(map1);
+order_data = ORDER desacoplar BY $0, $1, $2;
+STORE order_data INTO 'output' USING PigStorage(',');
